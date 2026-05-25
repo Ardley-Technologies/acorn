@@ -1,9 +1,3 @@
-plugins {
-    `java-library`
-    `maven-publish`
-    signing
-}
-
 allprojects {
     group = "com.ardley.acorn"
     version = "0.1.0"
@@ -11,16 +5,22 @@ allprojects {
     repositories {
         mavenCentral()
     }
+
+    configurations.all {
+        resolutionStrategy {
+            force("com.google.guava:guava:33.4.0-jre")
+        }
+    }
 }
 
 subprojects {
     if (name == "acorn-bom") return@subprojects
 
-    apply(plugin = "java-library")
-    apply(plugin = "maven-publish")
-    apply(plugin = "signing")
+    plugins.apply("java-library")
+    plugins.apply("maven-publish")
+    plugins.apply("signing")
 
-    java {
+    configure<JavaPluginExtension> {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(17))
         }
@@ -28,11 +28,11 @@ subprojects {
         withSourcesJar()
     }
 
-    tasks.test {
+    tasks.withType<Test> {
         useJUnitPlatform()
     }
 
-    tasks.javadoc {
+    tasks.withType<Javadoc> {
         options {
             (this as StandardJavadocDocletOptions).apply {
                 addStringOption("Xdoclint:none", "-quiet")
@@ -40,7 +40,7 @@ subprojects {
         }
     }
 
-    publishing {
+    configure<PublishingExtension> {
         publications {
             create<MavenPublication>("mavenJava") {
                 from(components["java"])
@@ -94,13 +94,13 @@ subprojects {
         }
     }
 
-    signing {
+    configure<SigningExtension> {
         isRequired = System.getenv("CI") != null
         useInMemoryPgpKeys(
             System.getenv("GPG_KEY_ID"),
             System.getenv("GPG_PRIVATE_KEY"),
             System.getenv("GPG_PASSPHRASE")
         )
-        sign(publishing.publications["mavenJava"])
+        sign(extensions.getByType<PublishingExtension>().publications["mavenJava"])
     }
 }

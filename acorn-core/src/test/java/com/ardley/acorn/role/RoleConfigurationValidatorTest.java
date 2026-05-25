@@ -1,9 +1,9 @@
 package com.ardley.acorn.role;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests role configuration validation including JSON parsing, hierarchy enforcement,

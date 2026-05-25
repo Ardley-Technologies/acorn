@@ -1,12 +1,11 @@
 package com.ardley.acorn.policy;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.ardley.acorn.attribute.Attributes;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests isolation policy enforcement logic across various attribute configurations.

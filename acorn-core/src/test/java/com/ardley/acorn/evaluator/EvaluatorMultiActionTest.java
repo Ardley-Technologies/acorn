@@ -1,13 +1,13 @@
 package com.ardley.acorn.evaluator;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.ardley.acorn.action.Action;
 import com.ardley.acorn.attribute.Attributes;
 import com.ardley.acorn.permission.PermissionSet;
 import com.ardley.acorn.policy.EvaluationPolicy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests evaluation scenarios involving multiple actions checked sequentially

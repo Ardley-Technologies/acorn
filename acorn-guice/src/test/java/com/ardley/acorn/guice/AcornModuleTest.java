@@ -1,5 +1,8 @@
 package com.ardley.acorn.guice;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import com.ardley.acorn.action.Action;
 import com.ardley.acorn.action.ActionRegistry;
 import com.ardley.acorn.attribute.AttributeSource;
@@ -13,21 +16,17 @@ import com.ardley.acorn.permission.PermissionSet;
 import com.ardley.acorn.policy.EvaluationPolicy;
 import com.ardley.acorn.resource.ResourceExtractor;
 import com.ardley.acorn.store.PermissionStore;
-import com.google.inject.CreationException;
 import com.google.inject.ConfigurationException;
+import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Tests the Guice module wiring produces a fully functional authorization system.

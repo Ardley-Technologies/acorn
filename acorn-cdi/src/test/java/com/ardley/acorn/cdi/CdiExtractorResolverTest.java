@@ -1,26 +1,25 @@
 package com.ardley.acorn.cdi;
 
-import com.ardley.acorn.attribute.AttributeSource;
-import com.ardley.acorn.attribute.Attributes;
-import com.ardley.acorn.context.RequestContext;
-import com.ardley.acorn.resource.ResourceExtractor;
-import jakarta.enterprise.inject.spi.Bean;
-import jakarta.enterprise.inject.spi.BeanManager;
-import jakarta.enterprise.context.spi.CreationalContext;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Optional;
-import java.util.Set;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+
+import com.ardley.acorn.attribute.AttributeSource;
+import com.ardley.acorn.attribute.Attributes;
+import com.ardley.acorn.context.RequestContext;
+import com.ardley.acorn.resource.ResourceExtractor;
+import jakarta.enterprise.context.spi.CreationalContext;
+import jakarta.enterprise.inject.spi.Bean;
+import jakarta.enterprise.inject.spi.BeanManager;
+import java.util.Optional;
+import java.util.Set;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
  * Tests the CDI extractor resolver's bean lookup behavior.

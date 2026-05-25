@@ -2,14 +2,14 @@ package com.ardley.acorn.jaxrs.filter;
 
 import com.ardley.acorn.action.Action;
 import com.ardley.acorn.action.ActionRegistry;
+import com.ardley.acorn.annotation.Authorized;
+import com.ardley.acorn.annotation.RequiresActions;
 import com.ardley.acorn.attribute.Attributes;
 import com.ardley.acorn.attribute.Principal;
 import com.ardley.acorn.attribute.PrincipalExtractor;
 import com.ardley.acorn.context.RequestContext;
 import com.ardley.acorn.evaluator.AuthorizationResult;
 import com.ardley.acorn.evaluator.Evaluator;
-import com.ardley.acorn.annotation.Authorized;
-import com.ardley.acorn.annotation.RequiresActions;
 import com.ardley.acorn.jaxrs.exception.AuthenticationRequiredException;
 import com.ardley.acorn.jaxrs.exception.AuthorizationDeniedException;
 import com.ardley.acorn.jaxrs.exception.ResourceNotFoundException;
@@ -25,11 +25,10 @@ import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.container.ResourceInfo;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.ext.Provider;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.lang.reflect.Parameter;
 import java.util.Optional;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * JAX-RS request filter that enforces Acorn authorization on annotated resource methods.

@@ -2,14 +2,14 @@ package com.ardley.acorn.cdi;
 
 import com.ardley.acorn.action.Action;
 import com.ardley.acorn.action.ActionRegistry;
+import com.ardley.acorn.annotation.Authorized;
+import com.ardley.acorn.annotation.RequiresActions;
 import com.ardley.acorn.attribute.Attributes;
 import com.ardley.acorn.attribute.Principal;
 import com.ardley.acorn.attribute.PrincipalExtractor;
 import com.ardley.acorn.context.RequestContext;
 import com.ardley.acorn.evaluator.AuthorizationResult;
 import com.ardley.acorn.evaluator.Evaluator;
-import com.ardley.acorn.annotation.Authorized;
-import com.ardley.acorn.annotation.RequiresActions;
 import com.ardley.acorn.permission.PermissionSet;
 import com.ardley.acorn.policy.EvaluationPolicy;
 import com.ardley.acorn.resource.ResourceExtractor;
@@ -19,12 +19,11 @@ import jakarta.interceptor.AroundInvoke;
 import jakarta.interceptor.Interceptor;
 import jakarta.interceptor.InvocationContext;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Optional;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * CDI interceptor that enforces Acorn authorization.

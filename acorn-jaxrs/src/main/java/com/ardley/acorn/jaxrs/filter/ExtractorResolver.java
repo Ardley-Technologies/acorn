@@ -19,7 +19,7 @@ public interface ExtractorResolver {
     /**
      * Returns an instance of the specified extractor class.
      *
-     * @param extractorClass the extractor class declared in {@link Authorized#extractor()}
+     * @param extractorClass the extractor class declared in {@link com.ardley.acorn.annotation.Authorized#extractor()}
      * @return the resolved instance
      * @throws IllegalArgumentException if the extractor cannot be resolved
      */

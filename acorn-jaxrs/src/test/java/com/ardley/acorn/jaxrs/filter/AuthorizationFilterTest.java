@@ -1,14 +1,20 @@
 package com.ardley.acorn.jaxrs.filter;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.verify;
+
 import com.ardley.acorn.action.Action;
 import com.ardley.acorn.action.ActionRegistry;
+import com.ardley.acorn.annotation.Authorized;
+import com.ardley.acorn.annotation.RequiresActions;
 import com.ardley.acorn.attribute.AttributeSource;
 import com.ardley.acorn.attribute.Attributes;
 import com.ardley.acorn.attribute.Principal;
 import com.ardley.acorn.attribute.PrincipalExtractor;
 import com.ardley.acorn.context.RequestContext;
-import com.ardley.acorn.annotation.Authorized;
-import com.ardley.acorn.annotation.RequiresActions;
 import com.ardley.acorn.jaxrs.exception.AuthenticationRequiredException;
 import com.ardley.acorn.jaxrs.exception.AuthorizationDeniedException;
 import com.ardley.acorn.jaxrs.exception.ResourceNotFoundException;
@@ -21,6 +27,9 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ResourceInfo;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.UriInfo;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -29,16 +38,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests the AuthorizationFilter end-to-end: principal extraction, gate checks,

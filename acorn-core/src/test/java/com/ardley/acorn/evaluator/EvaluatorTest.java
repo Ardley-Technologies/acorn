@@ -1,18 +1,14 @@
 package com.ardley.acorn.evaluator;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.ardley.acorn.action.Action;
 import com.ardley.acorn.attribute.Attributes;
-import com.ardley.acorn.attribute.Principal;
 import com.ardley.acorn.permission.PermissionSet;
 import com.ardley.acorn.policy.EvaluationPolicy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests the authorization evaluation engine against real permission configurations.

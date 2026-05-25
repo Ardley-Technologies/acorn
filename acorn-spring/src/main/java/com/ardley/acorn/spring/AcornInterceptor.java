@@ -2,27 +2,26 @@ package com.ardley.acorn.spring;
 
 import com.ardley.acorn.action.Action;
 import com.ardley.acorn.action.ActionRegistry;
+import com.ardley.acorn.annotation.Authorized;
+import com.ardley.acorn.annotation.RequiresActions;
 import com.ardley.acorn.attribute.Attributes;
 import com.ardley.acorn.attribute.Principal;
 import com.ardley.acorn.attribute.PrincipalExtractor;
 import com.ardley.acorn.context.RequestContext;
 import com.ardley.acorn.evaluator.AuthorizationResult;
 import com.ardley.acorn.evaluator.Evaluator;
-import com.ardley.acorn.annotation.Authorized;
-import com.ardley.acorn.annotation.RequiresActions;
 import com.ardley.acorn.permission.PermissionSet;
 import com.ardley.acorn.policy.EvaluationPolicy;
 import com.ardley.acorn.resource.ResourceExtractor;
 import com.ardley.acorn.store.PermissionStore;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.lang.reflect.Parameter;
+import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
-
-import java.lang.reflect.Parameter;
-import java.util.Optional;
 
 /**
  * Spring MVC interceptor that enforces Acorn authorization.

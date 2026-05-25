@@ -3,7 +3,7 @@ package com.ardley.acorn.jaxrs.exception;
 /**
  * Thrown when an authorization check fails.
  *
- * <p>The framework throws this exception from the {@link AuthorizationFilter} rather than
+ * <p>The framework throws this exception from the {@link com.ardley.acorn.jaxrs.filter.AuthorizationFilter} rather than
  * constructing a response directly. This allows applications to register their own
  * {@link jakarta.ws.rs.ext.ExceptionMapper} to control the response format (RFC 9457
  * Problem Details, custom JSON, XML, etc.).

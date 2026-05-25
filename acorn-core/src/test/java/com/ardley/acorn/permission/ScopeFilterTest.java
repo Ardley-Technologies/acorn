@@ -1,11 +1,11 @@
 package com.ardley.acorn.permission;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.ardley.acorn.attribute.Attributes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests scope filter parsing and evaluation logic.

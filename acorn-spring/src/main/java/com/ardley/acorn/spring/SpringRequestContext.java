@@ -2,12 +2,11 @@ package com.ardley.acorn.spring;
 
 import com.ardley.acorn.context.RequestContext;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.servlet.HandlerMapping;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.springframework.web.servlet.HandlerMapping;
 
 /**
  * Spring MVC implementation of {@link RequestContext}.

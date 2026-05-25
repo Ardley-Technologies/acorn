@@ -1,6 +1,5 @@
 package com.ardley.acorn.guice;
 
-import com.ardley.acorn.action.ActionRegistry;
 import com.ardley.acorn.attribute.PrincipalExtractor;
 import com.ardley.acorn.jaxrs.filter.AuthorizationFilter;
 import com.ardley.acorn.jaxrs.filter.ExtractorResolver;

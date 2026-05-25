@@ -1,15 +1,14 @@
 package com.ardley.acorn.store;
 
-import com.ardley.acorn.permission.PermissionSet;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import com.ardley.acorn.permission.PermissionSet;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the caching permission store behavior: cache hits, misses, invalidation,

@@ -26,6 +26,6 @@ public final class SpringExtractorResolver {
      * @throws org.springframework.beans.factory.NoSuchBeanDefinitionException if not registered
      */
     public ResourceExtractor<?> resolve(Class<? extends ResourceExtractor<?>> extractorClass) {
-        return (ResourceExtractor<?>) applicationContext.getBean(extractorClass);
+        return applicationContext.getBean(extractorClass);
     }
 }
