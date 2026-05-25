@@ -40,7 +40,7 @@ Acorn takes a different approach. Authorization is declared at the API surface �
 
 ## Why another RBAC library?
 
-I've used Spring Security, Apache Shiro, Keycloak adapters, and custom-built filter chains. They all share the same friction points:
+I've used Spring Security, Apache Shiro, Keycloak adapters, policy-language engines, and custom-built filter chains. They all share the same friction points:
 
 1. **Hardcoded role names.** You end up with `@RolesAllowed("ADMIN")` strings that drift out of sync with your actual role definitions. Rename a role in your admin panel and your annotations silently stop working.
 
@@ -50,7 +50,11 @@ I've used Spring Security, Apache Shiro, Keycloak adapters, and custom-built fil
 
 4. **Schema rigidity.** Most systems assume you have "users" and "roles" with specific fields. If your domain calls them "agents" and "permission profiles," you're fighting the library instead of using it.
 
-Acorn fixes all of these.
+5. **Custom policy languages.** Some newer systems introduce a dedicated policy syntax with its own grammar, compiler, and tooling chain. Policies live in separate files, get deployed independently, and reference entity types and attributes with no compile-time link to your application code. When your data model changes, nothing tells you your policies are stale until a user gets an unexpected 403 in production. You're maintaining two codebases in two languages that have to agree on the shape of the world — and they diverge silently.
+
+6. **External service dependency.** Policy engines that require a sidecar or network call for every authorization decision add latency, introduce a new failure mode, and mean your app can't start without the policy service being healthy. Your authorization path becomes as fragile as your least reliable infrastructure component.
+
+Acorn takes a different position. Permissions are plain JSON — no custom syntax, no separate tooling, no deployment pipeline for policy files. Your existing JSON tooling works. Permissions live in your database alongside your application data, managed through your existing APIs. Evaluation happens in-process in microseconds with no network calls. And your IDE can trace from annotation to evaluator to scope filter in a single jump — no `.policy` file to cross-reference.
 
 ## How it works
 

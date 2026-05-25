@@ -1,33 +1,40 @@
-# Security Policy
+# Security
 
-## Supported Versions
+## Reporting issues
 
-| Version | Supported |
-|---------|-----------|
-| 0.1.x   | Yes       |
+If you find a security vulnerability in Acorn, please don't open a public issue. We take these seriously and want to fix them before they're exploitable in the wild.
 
-## Reporting a Vulnerability
+Send an email to **security@ardley.com** with whatever details you have — what you found, how to reproduce it, how bad you think it is. A suggested fix is welcome but not expected. We'll acknowledge within 48 hours and get back to you with a plan within a week.
 
-Do **not** open a public GitHub issue for security vulnerabilities.
+## What we protect against
 
-Email security@ardley.co with:
+Acorn is an authorization library. It doesn't handle authentication, doesn't store secrets, and doesn't make network calls. The attack surface is narrow by design. That said, we've taken specific steps to make sure the project itself doesn't become a vector:
 
-1. Description of the vulnerability
-2. Steps to reproduce
-3. Potential impact assessment
-4. Suggested fix (if you have one)
+**Dependencies are verified.** Every library we pull in is pinned with checksums in `gradle/verification-metadata.xml`. If someone compromises a dependency on Maven Central and swaps the JAR, our build fails instead of silently pulling it in. We verify PGP signatures where available.
 
-We will acknowledge receipt within 48 hours and provide a timeline for a fix within 5 business days.
+**CI can't be poisoned easily.** Our publish workflow runs in a protected environment that requires manual approval. Secrets are scoped to that environment — a compromised PR can't exfiltrate them. Workflows only get read access to the repo by default.
 
-## Security Measures
+**Build infrastructure changes get extra scrutiny.** Anything touching `build.gradle.kts`, `settings.gradle.kts`, `gradle/`, or `.github/` requires review from the security team via CODEOWNERS. You can't sneak a malicious build change through a large PR.
 
-This project implements the following protections:
+**Published artifacts are signed.** Every JAR we ship to Maven Central and GitHub Packages is GPG-signed. You can verify the signature before trusting the artifact.
 
-- **Dependency verification**: All dependencies are pinned with SHA-256 checksums and PGP signatures (`gradle/verification-metadata.xml`)
-- **Action pinning**: All GitHub Actions are pinned to full commit SHAs, not mutable tags
-- **Minimal permissions**: CI workflows use `permissions: contents: read` by default
-- **Environment protection**: Publish workflow requires the `production` environment with manual approval
-- **No credential persistence**: `persist-credentials: false` on all checkouts
-- **Signed artifacts**: All published JARs are GPG-signed
-- **CODEOWNERS**: All changes to build infrastructure require security team review
-- **No runtime dependencies on auth**: The core library never handles authentication, tokens, or secrets
+**We keep dependencies minimal.** The core module depends on Guava and Jackson — nothing else. Fewer dependencies means fewer things that can go wrong. We're deliberate about what we pull in and why.
+
+## Supported versions
+
+We patch security issues in the latest minor release only. If you're on an older version, upgrade.
+
+| Version | Security patches |
+|---------|-----------------|
+| 0.1.x   | Yes             |
+
+## Scope
+
+Acorn evaluates authorization decisions. It does not:
+
+- Parse or validate JWTs (that's your `PrincipalExtractor`)
+- Store or transmit credentials
+- Make outbound HTTP calls
+- Cache sensitive data (permission sets are the only cached item, and they contain allow/deny rules — not secrets)
+
+If you find a way to bypass the evaluator's deny-wins logic, escalate privileges through scope filter manipulation, or cause the filter to silently pass unauthorized requests — that's a vulnerability we want to hear about.
