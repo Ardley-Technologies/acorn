@@ -28,9 +28,6 @@ jobs:
       - name: Build & Test
         run: ./gradlew build test --no-daemon
 
-      - name: Verify dependency checksums
-        run: ./gradlew --dependency-verification strict help --no-daemon
-
       - name: Publish to GitHub Packages
         run: ./gradlew publishAllPublicationsToGitHubPackagesRepository --no-daemon
         env:

@@ -10,7 +10,7 @@ Send an email to **security@ardley.com** with whatever details you have — what
 
 Acorn is an authorization library. It doesn't handle authentication, doesn't store secrets, and doesn't make network calls. The attack surface is narrow by design. That said, we've taken specific steps to make sure the project itself doesn't become a vector:
 
-**Dependencies are verified.** Every library we pull in is pinned with checksums in `gradle/verification-metadata.xml`. If someone compromises a dependency on Maven Central and swaps the JAR, our build fails instead of silently pulling it in. We verify PGP signatures where available.
+**Dependencies are monitored.** Dependabot scans weekly for known vulnerabilities in our dependency tree and opens PRs automatically. We keep dependencies minimal and well-audited.
 
 **CI can't be poisoned easily.** Our publish workflow runs in a protected environment that requires manual approval. Secrets are scoped to that environment — a compromised PR can't exfiltrate them. Workflows only get read access to the repo by default.
 
