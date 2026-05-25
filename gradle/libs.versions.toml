@@ -12,7 +12,7 @@ spring = "6.2.18"
 log4j = "2.22.0"
 junit = "5.10.2"
 assertj = "3.25.3"
-mockito = "5.11.0"
+mockito = "5.23.0"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
