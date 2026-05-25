@@ -204,6 +204,27 @@ public class DocumentExtractor implements ResourceExtractor<Document> {
 
 Register it. Now any endpoint can protect documents with scoped permissions — without the handler knowing authorization exists.
 
+### Resource caching is yours to control
+
+Acorn intentionally does not cache resources loaded by extractors. Authorization decisions must reflect the current state of the resource — a cached department value from 30 seconds ago could produce a wrong allow or deny, and those bugs are invisible and intermittent.
+
+What Acorn does: loads the resource once per request and stores it in the request context. Your handler retrieves the already-loaded instance — no second fetch. That's the only caching that's safe in an authorization path.
+
+If your `load()` is expensive, cache at your repository layer where you understand invalidation:
+
+```java
+public class DocumentExtractor implements ResourceExtractor<Document> {
+    private final DocumentRepository repo; // backed by Redis, Hibernate L2, etc.
+
+    public Document load(String id, AttributeSource principal) {
+        String tenantId = principal.attribute("tenant_id").orElseThrow();
+        return repo.findById(tenantId, id); // your cache, your invalidation rules
+    }
+}
+```
+
+This keeps the authorization layer honest — it always evaluates against what the extractor returns, and the extractor decides how fresh that data needs to be. Acorn doesn't add a second cache with different TTL semantics on top of yours.
+
 ## You own the storage
 
 Permission sets live wherever you want. Implement `PermissionLoader` and wrap it with the built-in `CachingPermissionStore`:
