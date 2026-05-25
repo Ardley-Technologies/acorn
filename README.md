@@ -3,6 +3,9 @@
 
 # Acorn
 
+[![Build & Test](https://github.com/Ardley-Technologies/acorn/actions/workflows/build.yml/badge.svg)](https://github.com/Ardley-Technologies/acorn/actions/workflows/build.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 *Declarative, schema-free RBAC for Java APIs.*
 
 [Why Acorn?](#why-another-rbac-library) · [How it works](#how-it-works) · [Permissions](#schema-free-permissions) · [Scope filters](#scope-filters) · [Frameworks](#framework-support) · [Get started](#getting-started)
