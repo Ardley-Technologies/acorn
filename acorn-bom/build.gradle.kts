@@ -39,7 +39,7 @@ publishing {
                     developer {
                         id.set("ardley")
                         name.set("Ardley Technologies")
-                        email.set("support@ardley.com")
+                        email.set("developers@ardley.com")
                     }
                 }
 

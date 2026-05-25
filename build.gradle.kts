@@ -28,6 +28,10 @@ subprojects {
         withSourcesJar()
     }
 
+    dependencies {
+        "testRuntimeOnly"("org.junit.platform:junit-platform-launcher")
+    }
+
     tasks.withType<Test> {
         useJUnitPlatform()
     }
@@ -61,7 +65,7 @@ subprojects {
                         developer {
                             id.set("ardley")
                             name.set("Ardley Technologies")
-                            email.set("dev@ardley.co")
+                            email.set("developers@ardley.com")
                         }
                     }
 

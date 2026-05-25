@@ -1,6 +1,6 @@
 [versions]
 guava = "33.4.0-jre"
-jackson = "2.17.0"
+jackson = "2.18.3"
 jakarta-ws-rs = "3.1.0"
 jakarta-inject = "2.0.1"
 jakarta-annotation = "2.1.1"
@@ -9,10 +9,10 @@ jakarta-cdi = "4.0.1"
 jakarta-interceptor = "2.1.0"
 guice = "7.0.0"
 spring = "6.2.18"
-log4j = "2.22.0"
-junit = "5.10.2"
-assertj = "3.25.3"
-mockito = "5.11.0"
+log4j = "2.26.0"
+junit = "5.13.4"
+assertj = "3.27.3"
+mockito = "5.23.0"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
