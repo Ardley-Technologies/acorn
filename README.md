@@ -1,21 +1,12 @@
-<p align="center">
-  <img src="assets/acorn-logo.png" alt="Acorn" width="180" />
-</p>
+<div align="center">
+<img src="assets/acorn-logo.png" alt="Acorn" width="180">
 
-<h1 align="center">Acorn</h1>
+# Acorn
 
-<p align="center">
-  <em>Declarative, schema-free RBAC for Java APIs.</em>
-</p>
+*Declarative, schema-free RBAC for Java APIs.*
 
-<p align="center">
-  <a href="#why-another-rbac-library">Why Acorn?</a> &middot;
-  <a href="#how-it-works">How it works</a> &middot;
-  <a href="#schema-free-permissions">Permissions</a> &middot;
-  <a href="#scope-filters">Scope filters</a> &middot;
-  <a href="#framework-support">Frameworks</a> &middot;
-  <a href="#getting-started">Get started</a>
-</p>
+[Why Acorn?](#why-another-rbac-library) · [How it works](#how-it-works) · [Permissions](#schema-free-permissions) · [Scope filters](#scope-filters) · [Frameworks](#framework-support) · [Get started](#getting-started)
+</div>
 
 ---
 
