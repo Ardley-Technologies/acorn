@@ -1,0 +1,8 @@
+# All changes require review from core maintainers
+* @Ardley-Technologies/security
+
+# Build and CI changes require additional scrutiny
+.github/ @Ardley-Technologies/security
+build.gradle.kts @Ardley-Technologies/security
+settings.gradle.kts @Ardley-Technologies/security
+gradle/ @Ardley-Technologies/security

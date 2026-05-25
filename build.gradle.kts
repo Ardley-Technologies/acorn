@@ -1,0 +1,108 @@
+plugins {
+    `java-library`
+    `maven-publish`
+    signing
+}
+
+allprojects {
+    group = "com.ardley.acorn"
+    version = "0.1.0"
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    if (name == "acorn-bom") return@subprojects
+
+    apply(plugin = "java-library")
+    apply(plugin = "maven-publish")
+    apply(plugin = "signing")
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(17))
+        }
+        withJavadocJar()
+        withSourcesJar()
+    }
+
+    tasks.test {
+        useJUnitPlatform()
+    }
+
+    tasks.javadoc {
+        options {
+            (this as StandardJavadocDocletOptions).apply {
+                addStringOption("Xdoclint:none", "-quiet")
+            }
+        }
+    }
+
+    publishing {
+        publications {
+            create<MavenPublication>("mavenJava") {
+                from(components["java"])
+
+                pom {
+                    name.set(project.name)
+                    description.set("Declarative, schema-free RBAC for Java APIs")
+                    url.set("https://github.com/Ardley-Technologies/acorn")
+
+                    licenses {
+                        license {
+                            name.set("MIT License")
+                            url.set("https://opensource.org/licenses/MIT")
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id.set("ardley")
+                            name.set("Ardley Technologies")
+                            email.set("dev@ardley.co")
+                        }
+                    }
+
+                    scm {
+                        connection.set("scm:git:git://github.com/Ardley-Technologies/acorn.git")
+                        developerConnection.set("scm:git:ssh://github.com/Ardley-Technologies/acorn.git")
+                        url.set("https://github.com/Ardley-Technologies/acorn")
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/Ardley-Technologies/acorn")
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = System.getenv("GITHUB_TOKEN")
+                }
+            }
+            maven {
+                name = "MavenCentral"
+                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+                credentials {
+                    username = System.getenv("OSSRH_USERNAME")
+                    password = System.getenv("OSSRH_PASSWORD")
+                }
+            }
+        }
+    }
+
+    signing {
+        isRequired = System.getenv("CI") != null
+        useInMemoryPgpKeys(
+            System.getenv("GPG_KEY_ID"),
+            System.getenv("GPG_PRIVATE_KEY"),
+            System.getenv("GPG_PASSPHRASE")
+        )
+        sign(publishing.publications["mavenJava"])
+    }
+}
