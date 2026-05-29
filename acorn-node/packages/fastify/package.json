@@ -1,0 +1,33 @@
+{
+  "name": "@ardley/acorn-fastify",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "bun": "./src/index.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "test": "bun test"
+  },
+  "peerDependencies": {
+    "@ardley/acorn-core": "workspace:*",
+    "fastify": "^5.0.0"
+  },
+  "dependencies": {
+    "fastify-plugin": "^5.0.0"
+  },
+  "devDependencies": {
+    "@ardley/acorn-core": "workspace:*",
+    "fastify": "^5.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0"
+  }
+}

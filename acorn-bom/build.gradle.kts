@@ -11,6 +11,7 @@ javaPlatform {
 dependencies {
     constraints {
         api(project(":acorn-core"))
+        api(project(":acorn-roles"))
         api(project(":acorn-jaxrs"))
         api(project(":acorn-guice"))
         api(project(":acorn-spring"))

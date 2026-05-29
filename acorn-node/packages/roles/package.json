@@ -1,0 +1,28 @@
+{
+  "name": "@ardley/acorn-roles",
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "bun": "./src/index.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "test": "bun test"
+  },
+  "peerDependencies": {
+    "@ardley/acorn-core": "workspace:*"
+  },
+  "devDependencies": {
+    "@ardley/acorn-core": "workspace:*",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0"
+  }
+}
