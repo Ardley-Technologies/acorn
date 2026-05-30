@@ -6,31 +6,34 @@
 [![Build & Test](https://github.com/Ardley-Technologies/acorn/actions/workflows/build.yml/badge.svg)](https://github.com/Ardley-Technologies/acorn/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-*Declarative, schema-free RBAC for Java APIs.*
+*Declarative, schema-free RBAC for your APIs.*
 
-[Why Acorn?](#why-another-rbac-library) · [How it works](#how-it-works) · [Permissions](#schema-free-permissions) · [Scope filters](#scope-filters) · [Frameworks](#framework-support) · [Get started](#getting-started)
+[Why Acorn?](#why-another-rbac-library) · [How it works](#how-it-works) · [Permissions](#schema-free-permissions) · [Scope filters](#scope-filters) · [Java](#java) · [Node.js](#nodejs) · [Get started](#getting-started)
 </div>
 
 ---
 
 Most authorization libraries make you scatter permission checks throughout your handlers. You end up with `if (user.hasRole("admin"))` buried inside business logic, or worse, you forget the check entirely and ship an open endpoint.
 
-Acorn takes a different approach. Authorization is declared at the API surface — on your endpoint annotations — and evaluated before your handler code ever executes. If a request doesn't have permission, it never reaches your business logic. Period.
+Acorn takes a different approach. Authorization is declared at the API surface — on your endpoint annotations or route config — and evaluated before your handler code ever executes. If a request doesn't have permission, it never reaches your business logic. Period.
 
-## Table of Contents
+Same permission model, same evaluation semantics, same JSON format — in Java and Node.js.
 
-- [Why another RBAC library?](#why-another-rbac-library)
-- [How it works](#how-it-works)
-- [Schema-free permissions](#schema-free-permissions)
-- [Scope filters](#scope-filters)
-- [Deny wins](#deny-wins)
-- [Isolation policy](#isolation-policy)
-- [Framework support](#framework-support)
-- [You own the principal](#you-own-the-principal)
-- [You own the resource](#you-own-the-resource)
-- [You own the storage](#you-own-the-storage)
-- [Getting started](#getting-started)
-- [License](#license)
+## Language Support
+
+| Language | Directory | Frameworks |
+|----------|-----------|-----------|
+| **Java** | [`java/`](./java) | JAX-RS (Jersey, RESTEasy), Spring MVC, CDI (Quarkus, WildFly), Guice |
+| **Node.js** | [`node/`](./node) | Express, Fastify, Koa |
+
+Both implementations share the same:
+- Permission JSON format
+- Evaluation order (deny-wins)
+- Scope filter types
+- Isolation policy semantics
+- Role management patterns
+
+A permission set written for your Java services works identically in your Node.js services. No translation layer.
 
 ## Why another RBAC library?
 
@@ -52,14 +55,16 @@ Acorn takes a different position. Permissions are plain JSON — no custom synta
 
 ## How it works
 
-You define **actions** — discrete operations your API supports. You define **resource extractors** — components that know how to load a resource and expose its properties. Then you annotate your endpoints with the actions they require.
+You define **actions** — discrete operations your API supports. You define **resource extractors** — components that know how to load a resource and expose its properties. Then you declare the actions your endpoints require.
 
 At request time, Acorn:
 
 1. Extracts the principal from the request (JWT, session, API key — you decide how)
 2. Loads the principal's permission set from your store (DynamoDB, Postgres, Redis — you decide where)
 3. Evaluates whether the principal can perform the declared actions, optionally against the specific resource being accessed
-4. Either lets the request through or throws — before your handler ever sees it
+4. Either lets the request through or rejects it — before your handler ever sees it
+
+### Java
 
 ```java
 @GET
@@ -76,8 +81,24 @@ public Response updateUser(
     String userId
 ) {
     // Only reaches here if the principal can UpdateUser on THIS specific user
-    // The user is already loaded and authorized — grab it from the request context
 }
+```
+
+### Node.js
+
+```typescript
+const Actions = defineActions({
+  ListUsers: 'List all users',
+  UpdateUser: 'Modify a user',
+});
+
+app.get('/users', acorn.protect({ actions: [Actions.ListUsers] }), handler);
+
+app.put('/users/:id', acorn.protect({
+  resources: [{ extractor: userExtractor, actions: [Actions.UpdateUser] }],
+}), (req, res) => {
+  const user = acorn.getResource<User>(req, 'user');
+});
 ```
 
 No role strings in your code. No manual permission checks in your handlers. The API surface *is* your authorization policy.
@@ -140,113 +161,66 @@ This means: can update any user, *except* users in the Executive department. Den
 Multi-tenant apps need tenant isolation. Single-tenant apps don't. Rather than hardcoding a cross-tenant check, you configure it:
 
 ```java
+// Java
 EvaluationPolicy policy = EvaluationPolicy.withIsolation("tenant_id");
+```
+
+```typescript
+// Node.js
+const policy = EvaluationPolicy.withIsolation('tenant_id');
 ```
 
 Now if a resource has a `tenant_id` attribute that differs from the principal's `tenant_id`, access is denied — regardless of what the permission set says. Remove the isolation attribute and the check disappears. Your call.
 
-## Framework support
+## Java
 
-Acorn is modular. The core evaluation engine has zero framework dependencies. Integration modules adapt it to your stack:
+The Java implementation lives in [`java/`](./java). Modules:
 
 | Module | What it does |
 |--------|-------------|
 | `acorn-core` | Evaluation engine, permission model, scope filters, caching store |
+| `acorn-roles` | Role management, seeding, repository abstraction |
 | `acorn-jaxrs` | JAX-RS `ContainerRequestFilter` integration (Jersey, RESTEasy) |
 | `acorn-guice` | Guice DI module with extractor resolution |
 | `acorn-spring` | Spring MVC `HandlerInterceptor` with `@EnableAcorn` auto-config |
 | `acorn-cdi` | CDI interceptor for Quarkus, WildFly, Payara |
-
-Pick the modules that match your stack. Use the core directly if your framework isn't listed.
-
-## You own the principal
-
-Acorn doesn't authenticate. It doesn't know what a JWT is, doesn't care about OAuth flows, has no opinion on session management. You implement `PrincipalExtractor` — a single method that takes a request and returns a principal. How you get there is your business.
-
-```java
-public class JwtPrincipalExtractor implements PrincipalExtractor {
-    public Optional<Principal> extract(RequestContext context) {
-        return context.header("Authorization")
-            .filter(h -> h.startsWith("Bearer "))
-            .map(h -> decodeAndValidate(h.substring(7)));
-    }
-}
-```
-
-The principal is an attribute bag. Expose whatever your authorization rules reference — `tenant_id`, `department`, `user_id`, `clearance_level`. The framework never interprets these. It just matches them against scope filters.
-
-## You own the resource
-
-Same story for resources. Implement `ResourceExtractor` — tell Acorn how to find the resource ID in the request, how to load it from storage, and which attributes matter for authorization:
-
-```java
-public class DocumentExtractor implements ResourceExtractor<Document> {
-    public String resourceType() { return "document"; }
-
-    public Optional<String> extractId(RequestContext context) {
-        return context.pathParam("docId");
-    }
-
-    public Document load(String id, AttributeSource principal) {
-        String tenantId = principal.attribute("tenant_id").orElseThrow();
-        return documentRepo.findById(tenantId, id);
-    }
-
-    public Attributes attributes(Document doc) {
-        return Attributes.builder()
-            .with("tenant_id", doc.getTenantId())
-            .with("classification", doc.getClassification())
-            .with("owner", doc.getCreatedBy())
-            .build();
-    }
-}
-```
-
-Register it. Now any endpoint can protect documents with scoped permissions — without the handler knowing authorization exists.
-
-### Resource caching is yours to control
-
-Acorn intentionally does not cache resources loaded by extractors. Authorization decisions must reflect the current state of the resource — a cached department value from 30 seconds ago could produce a wrong allow or deny, and those bugs are invisible and intermittent.
-
-What Acorn does: loads the resource once per request and stores it in the request context. Your handler retrieves the already-loaded instance — no second fetch. That's the only caching that's safe in an authorization path.
-
-If your `load()` is expensive, cache at your repository layer where you understand invalidation:
-
-```java
-public class DocumentExtractor implements ResourceExtractor<Document> {
-    private final DocumentRepository repo; // backed by Redis, Hibernate L2, etc.
-
-    public Document load(String id, AttributeSource principal) {
-        String tenantId = principal.attribute("tenant_id").orElseThrow();
-        return repo.findById(tenantId, id); // your cache, your invalidation rules
-    }
-}
-```
-
-This keeps the authorization layer honest — it always evaluates against what the extractor returns, and the extractor decides how fresh that data needs to be. Acorn doesn't add a second cache with different TTL semantics on top of yours.
-
-## You own the storage
-
-Permission sets live wherever you want. Implement `PermissionLoader` and wrap it with the built-in `CachingPermissionStore`:
-
-```java
-PermissionLoader loader = key -> dynamoDb.getItem(key.get(0), key.get(1))
-    .map(item -> PermissionSet.fromJson(item.getString("config")));
-
-PermissionStore store = new CachingPermissionStore(loader, Duration.ofMinutes(5), 10_000);
-```
-
-The cache key is derived from your principal's `permissionKey()` — you decide the segments. Multi-tenant apps might use `[tenantId, roleName]`. Single-tenant apps might use `[roleName]`. Your schema, your rules.
-
-## Getting started
+| `acorn-bom` | Bill of Materials |
 
 ```gradle
 dependencies {
-    implementation("com.ardley.acorn:acorn-core:1.0.0")
-    implementation("com.ardley.acorn:acorn-jaxrs:1.0.0")   // or acorn-spring, acorn-cdi
-    implementation("com.ardley.acorn:acorn-guice:1.0.0")   // or your DI framework
+    implementation("com.ardley.acorn:acorn-core:0.1.0")
+    implementation("com.ardley.acorn:acorn-roles:0.1.0")
+    implementation("com.ardley.acorn:acorn-jaxrs:0.1.0")   // or acorn-spring, acorn-cdi
+    implementation("com.ardley.acorn:acorn-guice:0.1.0")   // or your DI framework
 }
 ```
+
+## Node.js
+
+The Node.js implementation lives in [`node/`](./node). Packages:
+
+| Package | What it does |
+|---------|-------------|
+| `@ardley/acorn-core` | Evaluation engine, permission model, scope filters, caching. Zero runtime deps. |
+| `@ardley/acorn-roles` | Role management, seeding, repository abstraction |
+| `@ardley/acorn-express` | Express middleware |
+| `@ardley/acorn-fastify` | Fastify plugin |
+| `@ardley/acorn-koa` | Koa middleware |
+
+```bash
+bun add @ardley/acorn-core @ardley/acorn-express @ardley/acorn-roles
+```
+
+## You own everything
+
+- **You own the principal.** Implement one function/method that extracts identity from a request. JWT, session cookie, API key — your call.
+- **You own the resource.** Implement one extractor per resource type that knows how to load it and expose its attributes.
+- **You own the storage.** Permission sets live wherever you want. Implement a loader, wrap it with the built-in caching store.
+- **You own the roles.** Define a manifest of default roles, implement a repository for your database, and the seeding service handles initialization.
+
+## Getting started
+
+### Java
 
 1. Define your actions
 2. Implement `PrincipalExtractor`
@@ -256,7 +230,27 @@ dependencies {
 6. Register the filter/interceptor with your framework
 7. Annotate your endpoints
 
+### Node.js
+
+1. Define actions with `defineActions()`
+2. Implement a `PrincipalExtractor`
+3. Implement a `ResourceExtractor` for each protected resource type
+4. Implement a `PermissionLoader` backed by your database
+5. Configure `EvaluationPolicy`
+6. Create the framework adapter (`createAcorn`, `acornPlugin`, or `createAcornKoa`)
+7. Apply `protect()` to your routes
+
 Your handlers stay clean. Your authorization is declarative. Your permission model is yours.
+
+## Development
+
+```bash
+# Java
+cd java && ./gradlew test
+
+# Node.js
+cd node && bun test
+```
 
 ## License
 
