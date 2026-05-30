@@ -9,9 +9,14 @@ permissions:
   packages: write
 
 jobs:
-  publish:
+  java:
+    name: Publish Java
     runs-on: ubuntu-latest
     environment: production
+
+    defaults:
+      run:
+        working-directory: java
 
     steps:
       - uses: actions/checkout@v4
@@ -45,3 +50,40 @@ jobs:
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+  node:
+    name: Publish Node.js
+    runs-on: ubuntu-latest
+    environment: production
+
+    defaults:
+      run:
+        working-directory: node
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      - name: Test
+        run: bun test
+
+      - name: Build
+        run: bun run build
+
+      - name: Publish to NPM
+        run: |
+          for dir in packages/*/; do
+            if [ -f "$dir/package.json" ]; then
+              (cd "$dir" && npm publish --access public)
+            fi
+          done
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -3,6 +3,11 @@
 build/
 !gradle/wrapper/gradle-wrapper.jar
 
+# Node
+node_modules/
+dist/
+bun.lock
+
 # IDE
 .idea/
 *.iml
