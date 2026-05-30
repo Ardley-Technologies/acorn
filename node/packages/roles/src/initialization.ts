@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import type { RoleManifest, RoleRecord } from './types.js';
 import type { RoleConfigurationRepository } from './repository.js';
 
@@ -19,8 +20,7 @@ export class RoleInitializationService {
   }
 
   static fromFile(path: string): RoleInitializationService {
-    const fs = require('fs');
-    const json = fs.readFileSync(path, 'utf-8');
+    const json = readFileSync(path, 'utf-8');
     return RoleInitializationService.fromJson(json);
   }
 

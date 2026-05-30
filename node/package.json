@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "bun run --filter '*' build",
+    "build": "bun run --filter '@ardley/acorn-core' build && bun run --filter '!@ardley/acorn-core' build",
     "test": "bun test",
     "clean": "rm -rf packages/*/dist"
   }

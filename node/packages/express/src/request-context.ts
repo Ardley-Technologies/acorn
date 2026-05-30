@@ -5,7 +5,9 @@ export class ExpressRequestContext implements RequestContext {
   constructor(private readonly req: Request) {}
 
   pathParam(name: string): string | undefined {
-    return this.req.params?.[name];
+    const val = this.req.params?.[name];
+    if (typeof val === 'string') return val;
+    return undefined;
   }
 
   queryParam(name: string): string | undefined {
