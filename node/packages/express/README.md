@@ -53,6 +53,14 @@ app.put('/users/:id', acorn.protect({
 
 Routes without `acorn.protect()` are unprotected — Acorn only enforces where you tell it to.
 
+### Gate vs. resource checks and isolation
+
+`actions` runs a **gate check**: does this role hold the action at all? No resource is loaded, so `EvaluationPolicy.withIsolation('tenant_id')` has nothing to compare against and does not run. Gate-only routes rely on your principal loader and permission set alone — Acorn does not perform any tenant comparison for them.
+
+`resources` runs a **resource check**: the resource is loaded and `EvaluationPolicy` is consulted, including any isolation attributes. Cross-tenant access is rejected before permission evaluation.
+
+If a route must be tenant-isolated by Acorn, declare it under `resources` with an extractor whose `attributes()` includes the isolation attribute. Routes with no resource (e.g. `GET /logs/schema`) can safely use `actions` — but their tenant-scoping must be enforced elsewhere (e.g. by a partition key derived from the principal).
+
 ## What happens on failure
 
 | Situation | Response |
