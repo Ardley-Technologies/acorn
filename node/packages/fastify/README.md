@@ -61,6 +61,10 @@ app.put('/users/:id', {
 
 Routes without `config.acorn` pass through untouched. The plugin only activates where you configure it.
 
+### Gate vs. resource checks and isolation
+
+`actions` runs a **gate check** — no resource is loaded, so `EvaluationPolicy.withIsolation(...)` does not run. If a route must be tenant-isolated by Acorn, declare it under `resources` with an extractor whose `attributes()` includes the isolation attribute. Gate-only routes rely on your principal loader alone — tenant-scoping for those must be enforced elsewhere.
+
 ## How it works internally
 
 The plugin registers a `preHandler` hook that:

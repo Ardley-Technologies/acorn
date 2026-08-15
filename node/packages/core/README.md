@@ -73,6 +73,27 @@ This is the core contract. It never changes:
 
 Deny wins. Always.
 
+`canPerformAction()` is a **gate check** — it runs steps 2 and 5 only (unconditional deny → allow). No resource is involved, so the isolation check does not run. Use `evaluate()` when the caller has loaded a resource and tenant/attribute isolation must be enforced.
+
+## Isolation policies
+
+`EvaluationPolicy.withIsolation('tenant_id')` compares the named attribute on the principal and resource. When they differ, evaluation is denied before permission rules run.
+
+By default, a resource that omits the isolation attribute passes silently — appropriate for apps where only some resources are tenant-scoped. When every resource under a policy MUST carry the isolation attribute, opt into **strict mode**:
+
+```typescript
+// Chainable
+EvaluationPolicy.withIsolation('tenant_id').strict();
+
+// Or factory
+EvaluationPolicy.withStrictIsolation('tenant_id');
+
+// Or builder
+EvaluationPolicy.builder().withIsolation('tenant_id').strict().build();
+```
+
+In strict mode, a `ResourceExtractor.attributes()` implementation that forgets to include `tenant_id` produces an isolation violation instead of a silent pass. Prefer strict mode when all resources handled by the policy are tenant-scoped — it converts a class of silent misconfigurations into loud denials.
+
 ## Scope filters
 
 Five filter types, all AND'd together per action:

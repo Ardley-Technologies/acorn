@@ -49,6 +49,10 @@ const app = new Koa();
 app.use(router.routes());
 ```
 
+## Gate vs. resource checks and isolation
+
+`actions` runs a **gate check** — no resource is loaded, so `EvaluationPolicy.withIsolation(...)` does not run. If a route must be tenant-isolated by Acorn, declare it under `resources` with an extractor whose `attributes()` includes the isolation attribute. Gate-only routes rely on your principal loader alone — tenant-scoping for those must be enforced elsewhere.
+
 ## Behavior
 
 The `protect()` middleware sets `ctx.status` and `ctx.body` directly on failure, then returns without calling `next()`. Your handler never fires.

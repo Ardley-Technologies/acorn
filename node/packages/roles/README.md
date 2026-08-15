@@ -112,6 +112,19 @@ const principal = {
 };
 ```
 
+## The `permissionKey()` contract
+
+`RepositoryPermissionLoader` reads the key as **`[tenantId, roleId]`, in that order**. This is a load-bearing convention — role configurations are per-tenant (`RoleRecord.tenantId`), so returning just `[role]` would let tenant A's customized `admin` config leak into tenant B.
+
+Rules for `Principal.permissionKey()` when using this loader:
+
+- **Must return exactly two elements.** A single-element key causes the loader to return `undefined`, which the framework adapter converts to `AuthorizationDeniedError.noPermissions` (HTTP 403). Fail-closed, not a leak — but a 403 for every request is a bad way to discover the mistake.
+- **Order matters.** `[tenantId, roleId]`. Never `[roleId, tenantId]`.
+- **Both values must be non-empty strings.** The loader treats empty strings as missing.
+- **The cache key is `key.join('::')`.** If you use a custom loader with a different key shape, keep the join stable so `CachingPermissionStore` doesn't collide.
+
+If you implement a custom `PermissionLoader`, you may pick any key shape you like — but the shape must be consistent with what `Principal.permissionKey()` returns. The `[tenantId, roleId]` contract only applies when using `RepositoryPermissionLoader`.
+
 ## License
 
 MIT
