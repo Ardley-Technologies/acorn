@@ -24,7 +24,7 @@ Same permission model, same evaluation semantics, same JSON format — in Java a
 | Language | Directory | Frameworks |
 |----------|-----------|-----------|
 | **Java** | [`java/`](./java) | JAX-RS (Jersey, RESTEasy), Spring MVC, CDI (Quarkus, WildFly), Guice |
-| **Node.js** | [`node/`](./node) | Express, Fastify, Koa |
+| **Node.js** | [`node/`](./node) | Express, Fastify, Koa, AWS Lambda |
 
 Both implementations share the same:
 - Permission JSON format
@@ -206,6 +206,7 @@ The Node.js implementation lives in [`node/`](./node). Packages:
 | `@ardley/acorn-express` | Express middleware |
 | `@ardley/acorn-fastify` | Fastify plugin |
 | `@ardley/acorn-koa` | Koa middleware |
+| `@ardley/acorn-lambda` | AWS Lambda adapter (API Gateway, Function URLs, ALB) |
 
 ```bash
 bun add @ardley/acorn-core @ardley/acorn-express @ardley/acorn-roles
