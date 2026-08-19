@@ -6,7 +6,7 @@ import type {
   ActionRef,
   EvaluationPolicy,
   ActionRegistry,
-} from '@ardley/acorn-core';
+} from '@ardley-technologies/acorn-core';
 import {
   canPerformAction,
   evaluate,
@@ -14,7 +14,7 @@ import {
   AuthenticationRequiredError,
   AuthorizationDeniedError,
   ResourceNotFoundError,
-} from '@ardley/acorn-core';
+} from '@ardley-technologies/acorn-core';
 import type { LambdaHttpEvent, LambdaHttpResponse } from './event.js';
 import { LambdaRequestContext } from './request-context.js';
 

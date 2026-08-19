@@ -5,7 +5,7 @@ import {
   EvaluationPolicy,
   PermissionSet,
   defineActions,
-} from '@ardley/acorn-core';
+} from '@ardley-technologies/acorn-core';
 import type {
   AttributeSource,
   PermissionLoader,
@@ -14,7 +14,7 @@ import type {
   PrincipalExtractor,
   RequestContext,
   ResourceExtractor,
-} from '@ardley/acorn-core';
+} from '@ardley-technologies/acorn-core';
 import { createAcornLambda } from '../adapter.js';
 import type { LambdaHttpEventV2 } from '../event.js';
 

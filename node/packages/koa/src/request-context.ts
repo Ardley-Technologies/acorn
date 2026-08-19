@@ -1,5 +1,5 @@
 import type { Context } from 'koa';
-import type { RequestContext } from '@ardley/acorn-core';
+import type { RequestContext } from '@ardley-technologies/acorn-core';
 
 export class KoaRequestContext implements RequestContext {
   constructor(private readonly ctx: Context) {}

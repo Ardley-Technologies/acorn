@@ -14,20 +14,20 @@ Permissions are plain JSON. No policy language, no external service, no DSL. Eva
 
 | Package | What it does |
 |---------|-------------|
-| `@ardley/acorn-core` | Evaluation engine, permission model, scope filters, caching. Zero runtime deps. |
-| `@ardley/acorn-express` | Express middleware |
-| `@ardley/acorn-fastify` | Fastify plugin |
-| `@ardley/acorn-koa` | Koa middleware |
-| `@ardley/acorn-lambda` | AWS Lambda adapter (API Gateway, Function URLs, ALB) |
-| `@ardley/acorn-roles` | Role management and seeding for multi-tenant apps |
+| `@ardley-technologies/acorn-core` | Evaluation engine, permission model, scope filters, caching. Zero runtime deps. |
+| `@ardley-technologies/acorn-express` | Express middleware |
+| `@ardley-technologies/acorn-fastify` | Fastify plugin |
+| `@ardley-technologies/acorn-koa` | Koa middleware |
+| `@ardley-technologies/acorn-lambda` | AWS Lambda adapter (API Gateway, Function URLs, ALB) |
+| `@ardley-technologies/acorn-roles` | Role management and seeding for multi-tenant apps |
 
 Pick the packages that match your stack. Use the core directly if your framework isn't listed — it has no opinions about HTTP.
 
 ## What it looks like
 
 ```typescript
-import { createAcorn } from '@ardley/acorn-express';
-import { defineActions, ActionRegistry, EvaluationPolicy } from '@ardley/acorn-core';
+import { createAcorn } from '@ardley-technologies/acorn-express';
+import { defineActions, ActionRegistry, EvaluationPolicy } from '@ardley-technologies/acorn-core';
 
 const Actions = defineActions({
   ListUsers: 'List all users',

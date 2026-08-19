@@ -7,5 +7,5 @@ export default defineConfig({
   clean: true,
   splitting: false,
   sourcemap: true,
-  external: ['@ardley/acorn-core', 'koa'],
+  external: ['@ardley-technologies/acorn-core', 'koa'],
 });

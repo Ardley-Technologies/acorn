@@ -1,4 +1,4 @@
-# @ardley/acorn-roles
+# @ardley-technologies/acorn-roles
 
 Role management for multi-tenant applications. Provides a repository interface you implement for your database, a seeding service for default roles, and a bridge to Acorn's permission loading.
 
@@ -7,7 +7,7 @@ The pattern: you define your default roles in a JSON manifest, implement a repos
 ## Install
 
 ```bash
-bun add @ardley/acorn-core @ardley/acorn-roles
+bun add @ardley-technologies/acorn-core @ardley-technologies/acorn-roles
 ```
 
 ## Define your default roles
@@ -58,7 +58,7 @@ The `configuration` field is a standard Acorn permission set. Same format everyw
 This is the only thing you write. Five methods, all straightforward:
 
 ```typescript
-import type { RoleConfigurationRepository, RoleRecord } from '@ardley/acorn-roles';
+import type { RoleConfigurationRepository, RoleRecord } from '@ardley-technologies/acorn-roles';
 
 class MyRoleRepo implements RoleConfigurationRepository {
   async save(record: RoleRecord): Promise<void> { /* INSERT or UPSERT */ }
@@ -72,7 +72,7 @@ class MyRoleRepo implements RoleConfigurationRepository {
 ## Seed roles for new tenants
 
 ```typescript
-import { RoleInitializationService } from '@ardley/acorn-roles';
+import { RoleInitializationService } from '@ardley-technologies/acorn-roles';
 import manifest from './default-roles.json';
 
 const seeder = new RoleInitializationService(manifest);
@@ -94,8 +94,8 @@ This lets you bump the manifest version, add new roles, and re-run — existing 
 The `RepositoryPermissionLoader` bridges your repo to Acorn's permission store interface:
 
 ```typescript
-import { RepositoryPermissionLoader } from '@ardley/acorn-roles';
-import { CachingPermissionStore } from '@ardley/acorn-core';
+import { RepositoryPermissionLoader } from '@ardley-technologies/acorn-roles';
+import { CachingPermissionStore } from '@ardley-technologies/acorn-core';
 
 const loader = new RepositoryPermissionLoader(myRepo);
 const store = new CachingPermissionStore(loader, { ttlMs: 300_000, maxSize: 10_000 });

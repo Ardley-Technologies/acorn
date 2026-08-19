@@ -1,5 +1,5 @@
 import type { FastifyRequest } from 'fastify';
-import type { RequestContext } from '@ardley/acorn-core';
+import type { RequestContext } from '@ardley-technologies/acorn-core';
 
 export class FastifyRequestContext implements RequestContext {
   constructor(private readonly req: FastifyRequest) {}

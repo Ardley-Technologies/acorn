@@ -5,7 +5,7 @@ import type {
   ResourceExtractor,
   Principal,
   ActionRef,
-} from '@ardley/acorn-core';
+} from '@ardley-technologies/acorn-core';
 import {
   EvaluationPolicy,
   ActionRegistry,
@@ -15,7 +15,7 @@ import {
   AuthenticationRequiredError,
   AuthorizationDeniedError,
   ResourceNotFoundError,
-} from '@ardley/acorn-core';
+} from '@ardley-technologies/acorn-core';
 import { ExpressRequestContext } from './request-context.js';
 
 const PRINCIPAL_KEY = Symbol('acorn.principal');

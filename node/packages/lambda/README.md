@@ -1,9 +1,9 @@
-# @ardley/acorn-lambda
+# @ardley-technologies/acorn-lambda
 
 Acorn for AWS Lambda — API Gateway (payload 1.0 and 2.0), Function URLs, and ALB.
 
 ```bash
-bun add @ardley/acorn-core @ardley/acorn-lambda
+bun add @ardley-technologies/acorn-core @ardley-technologies/acorn-lambda
 ```
 
 ## Why this differs from the other adapters
@@ -28,8 +28,8 @@ and no way for a 403 to escape as a 502.
 ```ts
 import {
   ActionRegistry, EvaluationPolicy, CachingPermissionStore, defineActions,
-} from '@ardley/acorn-core';
-import { createAcornLambda } from '@ardley/acorn-lambda';
+} from '@ardley-technologies/acorn-core';
+import { createAcornLambda } from '@ardley-technologies/acorn-lambda';
 
 const Actions = defineActions({
   ListUsers: 'List all users',

@@ -1,7 +1,15 @@
 {
-  "name": "@ardley/acorn-fastify",
-  "version": "0.1.0",
+  "name": "@ardley-technologies/acorn-fastify",
+  "version": "0.2.0",
   "type": "module",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ardley-Technologies/acorn.git",
+    "directory": "node/packages/fastify"
+  },
   "exports": {
     ".": {
       "bun": "./src/index.ts",
@@ -18,14 +26,14 @@
     "test": "bun test"
   },
   "peerDependencies": {
-    "@ardley/acorn-core": "workspace:*",
+    "@ardley-technologies/acorn-core": "^0.2.0",
     "fastify": "^5.0.0"
   },
   "dependencies": {
     "fastify-plugin": "^5.0.0"
   },
   "devDependencies": {
-    "@ardley/acorn-core": "workspace:*",
+    "@ardley-technologies/acorn-core": "workspace:*",
     "fastify": "^5.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.4.0"

@@ -1,19 +1,19 @@
-# @ardley/acorn-fastify
+# @ardley-technologies/acorn-fastify
 
 Fastify plugin for Acorn. Uses Fastify's native route config system — authorization metadata lives right next to your schema definitions.
 
 ## Install
 
 ```bash
-bun add @ardley/acorn-core @ardley/acorn-fastify
+bun add @ardley-technologies/acorn-core @ardley-technologies/acorn-fastify
 ```
 
 ## Setup
 
 ```typescript
 import Fastify from 'fastify';
-import { acornPlugin, getAcornPrincipal, getAcornResource } from '@ardley/acorn-fastify';
-import { defineActions, ActionRegistry, EvaluationPolicy } from '@ardley/acorn-core';
+import { acornPlugin, getAcornPrincipal, getAcornResource } from '@ardley-technologies/acorn-fastify';
+import { defineActions, ActionRegistry, EvaluationPolicy } from '@ardley-technologies/acorn-core';
 
 const Actions = defineActions({
   ListUsers: 'List all users',

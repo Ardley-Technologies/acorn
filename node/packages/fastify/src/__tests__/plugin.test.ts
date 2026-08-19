@@ -6,8 +6,8 @@ import {
   EvaluationPolicy,
   ActionRegistry,
   defineActions,
-} from '@ardley/acorn-core';
-import type { Principal, PrincipalExtractor, PermissionStore, ResourceExtractor, RequestContext } from '@ardley/acorn-core';
+} from '@ardley-technologies/acorn-core';
+import type { Principal, PrincipalExtractor, PermissionStore, ResourceExtractor, RequestContext } from '@ardley-technologies/acorn-core';
 import { acornPlugin, getAcornPrincipal, getAcornResource } from '../plugin.js';
 
 const Actions = defineActions({

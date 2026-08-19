@@ -1,11 +1,11 @@
-# @ardley/acorn-koa
+# @ardley-technologies/acorn-koa
 
 Koa middleware for Acorn. Same factory pattern as the Express adapter — call `createAcornKoa()`, get back a `protect()` middleware you compose with your router.
 
 ## Install
 
 ```bash
-bun add @ardley/acorn-core @ardley/acorn-koa
+bun add @ardley-technologies/acorn-core @ardley-technologies/acorn-koa
 ```
 
 ## Usage
@@ -13,8 +13,8 @@ bun add @ardley/acorn-core @ardley/acorn-koa
 ```typescript
 import Koa from 'koa';
 import Router from '@koa/router';
-import { createAcornKoa } from '@ardley/acorn-koa';
-import { defineActions, ActionRegistry, EvaluationPolicy } from '@ardley/acorn-core';
+import { createAcornKoa } from '@ardley-technologies/acorn-koa';
+import { defineActions, ActionRegistry, EvaluationPolicy } from '@ardley-technologies/acorn-core';
 
 const Actions = defineActions({
   ListUsers: 'List all users',

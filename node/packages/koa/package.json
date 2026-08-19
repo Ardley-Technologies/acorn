@@ -1,7 +1,15 @@
 {
-  "name": "@ardley/acorn-koa",
-  "version": "0.1.0",
+  "name": "@ardley-technologies/acorn-koa",
+  "version": "0.2.0",
   "type": "module",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ardley-Technologies/acorn.git",
+    "directory": "node/packages/koa"
+  },
   "exports": {
     ".": {
       "bun": "./src/index.ts",
@@ -18,11 +26,11 @@
     "test": "bun test"
   },
   "peerDependencies": {
-    "@ardley/acorn-core": "workspace:*",
+    "@ardley-technologies/acorn-core": "^0.2.0",
     "koa": "^2.14.0"
   },
   "devDependencies": {
-    "@ardley/acorn-core": "workspace:*",
+    "@ardley-technologies/acorn-core": "workspace:*",
     "@types/koa": "^2.15.0",
     "koa": "^2.15.0",
     "@koa/router": "^13.0.0",

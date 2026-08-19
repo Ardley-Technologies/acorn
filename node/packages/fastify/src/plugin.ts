@@ -6,7 +6,7 @@ import type {
   ResourceExtractor,
   Principal,
   ActionRef,
-} from '@ardley/acorn-core';
+} from '@ardley-technologies/acorn-core';
 import {
   EvaluationPolicy,
   ActionRegistry,
@@ -16,7 +16,7 @@ import {
   AuthenticationRequiredError,
   AuthorizationDeniedError,
   ResourceNotFoundError,
-} from '@ardley/acorn-core';
+} from '@ardley-technologies/acorn-core';
 import { FastifyRequestContext } from './request-context.js';
 
 export interface RouteAuthConfig {
@@ -111,7 +111,7 @@ async function acornPluginImpl(fastify: FastifyInstance, options: AcornFastifyOp
   });
 }
 
-export const acornPlugin = fp(acornPluginImpl, { name: '@ardley/acorn-fastify' });
+export const acornPlugin = fp(acornPluginImpl, { name: '@ardley-technologies/acorn-fastify' });
 
 export function getAcornPrincipal(request: FastifyRequest): Principal {
   const principal = (request as any)[PRINCIPAL_KEY];

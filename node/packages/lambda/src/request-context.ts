@@ -1,4 +1,4 @@
-import type { RequestContext } from '@ardley/acorn-core';
+import type { RequestContext } from '@ardley-technologies/acorn-core';
 import type { LambdaHttpEvent, LambdaHttpEventV1, LambdaHttpEventV2 } from './event.js';
 
 function isV2(event: LambdaHttpEvent): event is LambdaHttpEventV2 {

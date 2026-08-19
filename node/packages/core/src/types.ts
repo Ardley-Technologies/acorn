@@ -9,7 +9,7 @@ export interface Principal extends AttributeSource {
    * a contract between your `Principal` implementation and your
    * `PermissionLoader`.
    *
-   * When using `@ardley/acorn-roles`' `RepositoryPermissionLoader`, the
+   * When using `@ardley-technologies/acorn-roles`' `RepositoryPermissionLoader`, the
    * contract is `[tenantId, roleId]`, in that order. Role configurations
    * are per-tenant, so a single-element key (e.g. just `[roleId]`) would
    * cause tenant A's customized role config to be served to tenant B.

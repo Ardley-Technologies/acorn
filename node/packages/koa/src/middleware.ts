@@ -5,14 +5,14 @@ import type {
   ResourceExtractor,
   Principal,
   ActionRef,
-} from '@ardley/acorn-core';
+} from '@ardley-technologies/acorn-core';
 import {
   EvaluationPolicy,
   ActionRegistry,
   canPerformAction,
   evaluate,
   resolveActionName,
-} from '@ardley/acorn-core';
+} from '@ardley-technologies/acorn-core';
 import { KoaRequestContext } from './request-context.js';
 
 const PRINCIPAL_KEY = Symbol('acorn.principal');

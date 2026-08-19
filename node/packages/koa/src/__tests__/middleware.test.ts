@@ -7,8 +7,8 @@ import {
   EvaluationPolicy,
   ActionRegistry,
   defineActions,
-} from '@ardley/acorn-core';
-import type { Principal, PrincipalExtractor, PermissionStore, ResourceExtractor, RequestContext } from '@ardley/acorn-core';
+} from '@ardley-technologies/acorn-core';
+import type { Principal, PrincipalExtractor, PermissionStore, ResourceExtractor, RequestContext } from '@ardley-technologies/acorn-core';
 import { createAcornKoa } from '../middleware.js';
 
 const Actions = defineActions({

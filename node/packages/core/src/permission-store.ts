@@ -3,7 +3,7 @@ import type { PermissionSet } from './permission-set.js';
 /**
  * Loads a permission set for a given key. Implementations decide what the
  * key means — a common shape is `[tenantId, roleId]`, which is what
- * `@ardley/acorn-roles`' `RepositoryPermissionLoader` uses.
+ * `@ardley-technologies/acorn-roles`' `RepositoryPermissionLoader` uses.
  *
  * The key shape is a contract between the loader and `Principal.permissionKey()`.
  * Return `undefined` when the key is malformed or no permission set exists;

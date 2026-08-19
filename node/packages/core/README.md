@@ -1,13 +1,13 @@
-# @ardley/acorn-core
+# @ardley-technologies/acorn-core
 
 The authorization engine. Zero runtime dependencies. Framework-agnostic. This is where all the actual decision-making lives.
 
-You probably don't use this package alone — you pair it with `@ardley/acorn-express`, `@ardley/acorn-fastify`, or `@ardley/acorn-koa`. But if you're building your own integration or just want to evaluate permissions in a script, this is all you need.
+You probably don't use this package alone — you pair it with `@ardley-technologies/acorn-express`, `@ardley-technologies/acorn-fastify`, or `@ardley-technologies/acorn-koa`. But if you're building your own integration or just want to evaluate permissions in a script, this is all you need.
 
 ## Install
 
 ```bash
-bun add @ardley/acorn-core
+bun add @ardley-technologies/acorn-core
 ```
 
 ## Actions
@@ -15,7 +15,7 @@ bun add @ardley/acorn-core
 Every permission references an action by name. You define actions once, and the names are derived from the keys — no redundant `name: "UpdateUser"` boilerplate:
 
 ```typescript
-import { defineActions, ActionRegistry } from '@ardley/acorn-core';
+import { defineActions, ActionRegistry } from '@ardley-technologies/acorn-core';
 
 const UserActions = defineActions({
   ListUsers: 'List all users in the workspace',
@@ -37,7 +37,7 @@ registry.all(); // → [{ name: 'ListUsers', description: '...' }, ...]
 The evaluator is stateless. It takes inputs and returns a decision — no side effects, no I/O.
 
 ```typescript
-import { canPerformAction, evaluate, PermissionSet, EvaluationPolicy, Attributes } from '@ardley/acorn-core';
+import { canPerformAction, evaluate, PermissionSet, EvaluationPolicy, Attributes } from '@ardley-technologies/acorn-core';
 
 const perms = PermissionSet.fromJson(`{
   "allow": { "UpdateUser": {"department": {"match": "principal"}} },
@@ -111,7 +111,7 @@ Five filter types, all AND'd together per action:
 Permission lookups go to your database. You don't want that on every request. Wrap your loader with the built-in LRU+TTL cache:
 
 ```typescript
-import { CachingPermissionStore } from '@ardley/acorn-core';
+import { CachingPermissionStore } from '@ardley-technologies/acorn-core';
 
 const store = new CachingPermissionStore(
   { load: async (key) => fetchFromDb(key[0], key[1]) },

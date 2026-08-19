@@ -1,19 +1,19 @@
-# @ardley/acorn-express
+# @ardley-technologies/acorn-express
 
 Express middleware for Acorn. Wraps the core evaluation engine into a `protect()` middleware you apply per-route.
 
 ## Install
 
 ```bash
-bun add @ardley/acorn-core @ardley/acorn-express
+bun add @ardley-technologies/acorn-core @ardley-technologies/acorn-express
 ```
 
 ## Basic setup
 
 ```typescript
 import express from 'express';
-import { createAcorn } from '@ardley/acorn-express';
-import { defineActions, ActionRegistry, EvaluationPolicy, CachingPermissionStore } from '@ardley/acorn-core';
+import { createAcorn } from '@ardley-technologies/acorn-express';
+import { defineActions, ActionRegistry, EvaluationPolicy, CachingPermissionStore } from '@ardley-technologies/acorn-core';
 
 const Actions = defineActions({
   ListUsers: 'List all users',

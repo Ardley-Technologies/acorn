@@ -1,5 +1,5 @@
 import type { Request } from 'express';
-import type { RequestContext } from '@ardley/acorn-core';
+import type { RequestContext } from '@ardley-technologies/acorn-core';
 
 export class ExpressRequestContext implements RequestContext {
   constructor(private readonly req: Request) {}

@@ -20,6 +20,24 @@ dependencies {
 }
 
 publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Ardley-Technologies/acorn")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+        maven {
+            name = "MavenCentral"
+            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = System.getenv("OSSRH_USERNAME")
+                password = System.getenv("OSSRH_PASSWORD")
+            }
+        }
+    }
     publications {
         create<MavenPublication>("mavenBom") {
             from(components["javaPlatform"])

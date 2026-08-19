@@ -1,5 +1,5 @@
-import type { PermissionLoader } from '@ardley/acorn-core';
-import { PermissionSet } from '@ardley/acorn-core';
+import type { PermissionLoader } from '@ardley-technologies/acorn-core';
+import { PermissionSet } from '@ardley-technologies/acorn-core';
 import type { RoleConfigurationRepository } from './repository.js';
 
 /**
