@@ -1,6 +1,6 @@
 {
   "name": "@ardley-technologies/acorn-roles",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
@@ -26,10 +26,10 @@
     "test": "bun test"
   },
   "peerDependencies": {
-    "@ardley-technologies/acorn-core": "^0.2.1"
+    "@ardley-technologies/acorn-core": "^0.2.2"
   },
   "devDependencies": {
-    "@ardley-technologies/acorn-core": "workspace:*",
+    "@ardley-technologies/acorn-core": "^0.2.2",
     "@types/node": "^22.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.4.0"
