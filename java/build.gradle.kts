@@ -18,7 +18,6 @@ subprojects {
 
     plugins.apply("java-library")
     plugins.apply("maven-publish")
-    plugins.apply("signing")
 
     configure<JavaPluginExtension> {
         toolchain {
@@ -87,24 +86,7 @@ subprojects {
                     password = System.getenv("GITHUB_TOKEN")
                 }
             }
-            maven {
-                name = "MavenCentral"
-                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-                credentials {
-                    username = System.getenv("OSSRH_USERNAME")
-                    password = System.getenv("OSSRH_PASSWORD")
-                }
-            }
         }
     }
 
-    configure<SigningExtension> {
-        isRequired = System.getenv("CI") != null
-        useInMemoryPgpKeys(
-            System.getenv("GPG_KEY_ID"),
-            System.getenv("GPG_PRIVATE_KEY"),
-            System.getenv("GPG_PASSPHRASE")
-        )
-        sign(extensions.getByType<PublishingExtension>().publications["mavenJava"])
-    }
 }
